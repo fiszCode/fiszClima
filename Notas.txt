@@ -1,0 +1,12 @@
+Mínimo para hoy:
+
+» Esqueleto básico del CSS del home
+» Componente Extra (con un Switch, ponele)
+
+» ¿Subir a Vercel?
+
+=================================
+
+<CajaClima temperatura={temperaturaActual} termica={temperaturaActual} escala = "C" clima = {climaActual} climaDESC={climaActualDescripcion} climaID={climaActualID}/>
+                     <h1>Datos de la API</h1>
+                     <pre>{JSON.stringify(infoClima, null, 2)}</pre>
