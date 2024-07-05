@@ -25,6 +25,7 @@ import CajaTarjeta from "@/components/CajaTarjeta"; // C
 import CajaFooter from "@/components/CajaFooter"; // C
 
 import dynamic from 'next/dynamic';
+import NavBar from '@/components/CajaNavbar';
 
 const MapComponent = dynamic(() => import('@/components/CajaMapa'), {
     ssr: false, // Esto asegura que el mapa solo se renderice en el cliente
@@ -33,7 +34,7 @@ const MapComponent = dynamic(() => import('@/components/CajaMapa'), {
 // Componente principal
 function App() 
 {
-     const searchRef = useRef(null);
+     //const searchRef = useRef(null);
      // Creamos las variables donde vamos a guardar los datos recuperados de la API del clima
      const [estadoPagina, setEstadoPagina] = useState("A");
      const [cityLat, setCityLat] = useState(0);
@@ -56,15 +57,17 @@ function App()
      const [climaActualICO, setClimaActualICO] = useState('');
      const [climaActualDescripcion, setClimaActualDescripcion] = useState('');
      const [infoClima, setInfoClima] = useState([]);
+
      // Utilizados para la funcion que obtiene el nombre de las ciudades
-     const [cityName, setCityName] = useState(''); 
-     const [listaCiudades, setListaCiudades] = useState([]);
-     const [ocultarLista, setOcultarLista] = useState(0);
+     //const [cityName, setCityName] = useState(''); 
+     //const [listaCiudades, setListaCiudades] = useState([]);
+     //const [ocultarLista, setOcultarLista] = useState(0);
 
      // Agrega useEffect para llamar a obtenerDatosClima cuando cambien cityLat y cityLon
-     useEffect(() => { if (cityLat !== 0 && cityLon !== 0) {obtenerDatosClima(); setOcultarLista(1)}}, [cityLat, cityLon]);
-    
-     // Función utilizada para obtener la lista de ciudades
+     useEffect(() => { if (cityLat !== 0 && cityLon !== 0) {obtenerDatosClima()}}, [cityLat, cityLon]);
+     // setOcultarLista(1)
+     
+     /* // Función utilizada para obtener la lista de ciudades
      const obtenerNombreCiudades = async () => {
          console.log("obtenerNombreCiudades")
          if (cityName !== '') {
@@ -74,7 +77,7 @@ function App()
              setListaCiudades(jsonData);
              //setEstadoPagina("B");
          } else {console.log("Ciudad vacia")}
-     };
+     };*/
 
      // Función async encargada de obtener los datos de la API
      const obtenerDatosClima = async () => 
@@ -97,7 +100,7 @@ function App()
          setMaximaActual(jsonData?.main?.temp_max);
          setPresionActual(jsonData?.main?.pressure);
          setHumedadActual(jsonData?.main?.humidity);
-         setVisibilidadActual(jsonData?.visibility);
+         setVisibilidadActual(jsonData?.visibility); 
          setVientoActual(jsonData?.wind?.speed);
          setPaisActual(jsonData?.sys?.country);
          setAmanecerActual(jsonData?.sys?.sunrise);
@@ -111,13 +114,13 @@ function App()
          setEstadoPagina("C");
      }
      
-     // Lógica utilizada por el buscador de la AppBar
+     /* // Lógica utilizada por el buscador de la AppBar
 
      const [cajaCiudad, setCajaCiudad] = useState('');
-     const [results, setResults] = useState([]);
+     const [results, setResults] = useState([]);*/
 
      // Agrega useEffect para llamar a obtenerNombreCiudades cuando cambia CityName
-     useEffect(() => {
+    /* useEffect(() => {
          obtenerNombreCiudades()
        }, [cityName]);
 
@@ -125,19 +128,19 @@ function App()
       useEffect(() => {
          setCityName(cajaCiudad)
              //obtenerNombreCiudades()
-        }, [cajaCiudad]);
+        }, [cajaCiudad]);*/
 
 
     // Manejar cambios en Caja Ciudad
-     const handleSearchChange = (event) => {
+     /*const handleSearchChange = (event) => {
          setCajaCiudad(event.target.value);
              //setCityName(cajaCiudad)
              //obtenerNombreCiudades()  
-     };
+     };*/
 
 
      // Manejador de eventos para detectar clics fuera del componente
-     useEffect(() => {
+     /*useEffect(() => {
          const handleClickOutside = (event) => {
              if (searchRef.current && !searchRef.current.contains(event.target)) {
                  setOcultarLista(1);  // Oculta la lista al hacer clic fuera del componente
@@ -145,10 +148,11 @@ function App()
          };
          document.addEventListener('mousedown', handleClickOutside);
          return () => {document.removeEventListener('mousedown', handleClickOutside); }}, [searchRef, ocultarLista])
+*/
 
          const [TabValue, setTabValue] = React.useState('2');
          const handleTabChange = (event: React.SyntheticEvent, newTabValue: string) => {
-           setTabValue(newTabValue);}
+           setTabValue(newTabValue);} 
 
         // Agrega un estado para la clave de actualización
 const [mapKey, setMapKey] = useState(Date.now());
@@ -164,50 +168,10 @@ useEffect(() => {
          // Formulario de coordenadas + información del clima (sólo si está disponible)
          return (
              <div>
-                 <Box sx={{ flexGrow: 1 }}>
-                     <AppBar position="fixed">
-                         <Toolbar>
-                             <IconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }}>
-                                 <MenuIcon />
-                             </IconButton>
-                             <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
-                                 fiszClima
-                             </Typography>
-                             <Box sx={{ flexGrow: 1 }} />
-                             <Search ref={searchRef} onClick={() => {setOcultarLista(0)}}>
-                                 <SearchIconWrapper>
-                                 <SearchIcon />
-                                 </SearchIconWrapper>
-                                 <StyledInputBase placeholder="Buscar ciudad..." inputProps={{ 'aria-label': 'search' }} value={cajaCiudad} onChange={handleSearchChange}/>
-                                 {cajaCiudad.length > 0 && listaCiudades.length > 0 && ocultarLista === 0 && (
-                                     <Paper sx={{ position: 'absolute', zIndex: 1, top: '100%', left: 0, right: 0 }}>
-                                         <List>
-                                             {console.log ("Llamada appbar")}
-                                             {console.log (listaCiudades)}
-                                             {listaCiudades.map((item, index) => {
-                                                 const name = item.name ? item.name : "";
-                                                 const state = item.state ? `, ${item.state}` : "";
-                                                 const country = item.country ? `, ${item.country}` : "";
-                                                 return (
-                                                     <ListItem  button key={index} onClick={() => {setCityLon(listaCiudades[index].lon); setCityLat(listaCiudades[index].lat)}}>
-                                                         <ListItemText primary={`${name}${state}${country}`} />
-                                                     </ListItem>
-                                                 );
-                                             })}
-                                         </List>
-                                     </Paper>     
-                                 )}
-                             </Search>
-                             <Box sx={{ flexGrow: 1 }} />
-                             <IconButton size="large" edge="end" color="inherit" aria-label="icon1">
-                                 <IconPlaceholder />
-                             </IconButton>
-                             <IconButton size="large" edge="end" color="inherit" aria-label="icon2">
-                                 <IconPlaceholder />
-                             </IconButton>
-                         </Toolbar>
-                     </AppBar>
-                 </Box>        
+                 <NavBar onCityClick={({ lon, lat }) =>{
+                        setCityLon(lon)
+                        setCityLat(lat)
+                  }} />
                  <div css={cajaPadre}>
                  {estadoPagina === "C" ? (
                  
