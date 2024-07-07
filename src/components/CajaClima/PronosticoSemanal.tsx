@@ -1,7 +1,7 @@
 // Componente utilizado para mostrar la temperatura y la sensación térmica
 
 // Definimos el tipo de variables que vamos a utilizar por parámetros en la funcion/componente en si
-interface TemperaturaType
+interface PronosticoType
 {
      temperatura: string;
      termica: string;
@@ -9,7 +9,7 @@ interface TemperaturaType
 }
 
 // El componente/funcion en si mismo
-export default function CajaTemperatura({temperatura, termica, escala,}: TemperaturaType)
+export default function PronosticoSemanal({temperatura, termica, escala,}: PronosticoType)
      {
          return (
              <div className="font-bold background-color: blue;">

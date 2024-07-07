@@ -5,7 +5,7 @@ interface CiudadType
 {
      ciudad: string;
 }
-export default function CajaCiudad({ciudad}: CiudadType)
+export default function NombreCiudad({ciudad}: CiudadType)
      {
          return (
              <div css={cajaPadre}>

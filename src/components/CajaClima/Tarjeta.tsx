@@ -13,7 +13,7 @@ export interface TarjetaType
      extra: any;
 }
 
-export default function CajaTarjeta({tipo, titulo, descripcion, extra}: TarjetaType) {
+export default function Tarjeta({tipo, titulo, descripcion, extra}: TarjetaType) {
  
      let tituloFinal = titulo
      // Tipos de solicitudes

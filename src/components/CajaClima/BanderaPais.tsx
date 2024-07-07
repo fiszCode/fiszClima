@@ -8,7 +8,7 @@ export interface PaisType
 }
 
 // El componente/funcion en si misma
-export default function CajaPais({siglas}: PaisType)
+export default function BanderaPais({siglas}: PaisType)
      {
         const [data, setData] = useState([]);
         const [countryName, setName] = useState([]);

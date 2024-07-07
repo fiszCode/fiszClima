@@ -2,7 +2,7 @@
 import {css} from "@emotion/react"; 
 
 // Definimos el tipo de variables que vamos a utilizar por parámetros en la funcion/componente en si
-interface ClimaType
+interface TemperaturaType
 {
      temperatura: string;
      termica: string;
@@ -13,22 +13,8 @@ interface ClimaType
      climaICO: string;
 }
 
-/*
- <div>
-                 <div>
-                 <br></br>
-                     <h1 className="font-bold background-color: red;">*** Caja Clima ***</h1>
-                     <h2>Clima: {clima} </h2>
-                     <h2>Clima desc.: {climaDESC}</h2>
-                     <h2>Clima ID: {climaID}</h2>
-                     <h2>Temperatura: {tempFinal.toFixed(0)}° {escala}</h2>
-                     <h2>Sensación térmica: {terFinal.toFixed(0)}° {escala}</h2>
-                 </div>
-             </div>
-*/
-
 // El componente/funcion en si mismo
-export default function CajaClima({temperatura, termica, escala, clima, climaID, climaDESC, climaICO}: ClimaType)
+export default function TemperaturaActual({temperatura, termica, escala, clima, climaID, climaDESC, climaICO}: TemperaturaType)
      {
          let tempFinal = parseInt(temperatura), terFinal = parseInt(termica)
          tempFinal = tempFinal - 273.15

@@ -17,7 +17,7 @@ interface MapComponentProps {
   lng: number;
 }
 
-const MapComponent: React.FC<MapComponentProps> = ({ lat, lng }) => {
+const Mapa: React.FC<MapComponentProps> = ({ lat, lng }) => {
 
     console.log("Actualizando mapa a " + lat + " y " + lng);
     
@@ -34,4 +34,4 @@ const MapComponent: React.FC<MapComponentProps> = ({ lat, lng }) => {
   );
 };
 
-export default MapComponent;
+export default Mapa;

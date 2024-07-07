@@ -1,7 +1,7 @@
 import { Typography, Container } from '@mui/material/';
 import {css} from "@emotion/react"; 
 
-const CajaFooter = () => {
+const Footer = () => {
   return (
     <footer css={cajaPadre}>
       <Container maxWidth="md">
@@ -16,7 +16,7 @@ const CajaFooter = () => {
   );
 };
 
-export default CajaFooter;
+export default Footer;
 
 const cajaPadre = css`
      padding: theme.spacing(2);

@@ -6,35 +6,30 @@ import React, { useState, useEffect, useRef} from 'react';
 import {css} from "@emotion/react"; 
 
 // Dependencias usadas por Material UI
-import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, List, ListItem, ListItemText, Paper } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import IconPlaceholder from '@mui/icons-material/HelpOutline'; // Placeholder icon, replace with your desired icons
-import { styled, alpha, useTheme} from '@mui/material/styles';
-import Tabs from '@mui/material/Tabs';
+import {Box} from '@mui/material';
+import {styled, alpha} from '@mui/material/styles';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import dynamic from 'next/dynamic';
+import NavBar from '@/components/Navbar';
 
 // Importamos los componentes propios
-import CajaClima from "@/components/CajaClima"; // C
-import CajaPais from "@/components/CajaPais"; // C
-import CajaCiudad from "@/components/CajaCiudad"; // C
-import CajaTarjeta from "@/components/CajaTarjeta"; // C
-import CajaFooter from "@/components/CajaFooter"; // C
+import TemperaturaActual from "@/components/CajaClima/TemperaturaActual"; // C
+import BanderaPais from "@/components/CajaClima/BanderaPais"; // C
+import NombreCiudad from "@/components/CajaClima/NombreCiudad"; // C
+import Tarjeta from "@/components/CajaClima/Tarjeta"; // C
+import CajaClima from "@/components/CajaClima/CajaClima"; // C
+import Footer from "@/components/Footer"; // C
 
-import dynamic from 'next/dynamic';
-import NavBar from '@/components/CajaNavbar';
-
-const MapComponent = dynamic(() => import('@/components/CajaMapa'), {
+const Mapa = dynamic(() => import('@/components/CajaClima/Mapa'), {
     ssr: false, // Esto asegura que el mapa solo se renderice en el cliente
   });
 
 // Componente principal
 function App() 
 {
-     //const searchRef = useRef(null);
      // Creamos las variables donde vamos a guardar los datos recuperados de la API del clima
      const [estadoPagina, setEstadoPagina] = useState("A");
      const [cityLat, setCityLat] = useState(0);
@@ -56,7 +51,6 @@ function App()
      const [climaActualID, setClimaActualID] = useState('');
      const [climaActualICO, setClimaActualICO] = useState('');
      const [climaActualDescripcion, setClimaActualDescripcion] = useState('');
-     const [infoClima, setInfoClima] = useState([]);
 
      // Agrega useEffect para llamar a obtenerDatosClima cuando cambien cityLat y cityLon
      useEffect(() => { if (cityLat !== 0 && cityLon !== 0) {obtenerDatosClima()}}, [cityLat, cityLon]);
@@ -72,7 +66,6 @@ function App()
          const url = `https://api.openweathermap.org/data/2.5/weather?lat=${cityLat}&lon=${cityLon}&appid=72a8af477f23cc2e1c7eb81e9a142367`;
          const response = await fetch(url);
          const jsonData = await response.json();
-         setInfoClima(jsonData);
          console.log("Info obtenida en jsonData")
          console.log(jsonData)
          // Asignamos los valores individuales
@@ -96,17 +89,14 @@ function App()
          setEstadoPagina("C");
      }
      
-         const [TabValue, setTabValue] = React.useState('2');
-         const handleTabChange = (event: React.SyntheticEvent, newTabValue: string) => {
-           setTabValue(newTabValue);} 
+     const [TabValue, setTabValue] = React.useState('2');
+     const handleTabChange = (event: React.SyntheticEvent, newTabValue: string) => {
+     setTabValue(newTabValue);} 
 
-        // Agrega un estado para la clave de actualización
-const [mapKey, setMapKey] = useState(Date.now());
-
-// Incrementa la clave cuando cambien cityLat y cityLon
-useEffect(() => {
-    setMapKey(Date.now());
-}, [cityLat, cityLon]);
+     // Agrega un estado para la clave de actualización del mapa
+     const [mapKey, setMapKey] = useState(Date.now());
+     // Incrementa la clave cuando cambien cityLat y cityLon
+     useEffect(() => {setMapKey(Date.now())}, [cityLat, cityLon]);
 
      // Return de la página 
      if (estadoPagina !== "error") 
@@ -123,14 +113,14 @@ useEffect(() => {
                  
                  <div css={cajaClima}>
                      <div css={filaClima}>
-                         <CajaPais siglas={paisActual}/>
-                         <CajaCiudad ciudad={ciudadActual}/>
+                         <BanderaPais siglas={paisActual}/>
+                         <NombreCiudad ciudad={ciudadActual}/>
                      </div>
                      <div css={filaClima}>
-                         <MapComponent key={mapKey} lat={cityLat} lng={cityLon}/>
+                         <Mapa key={mapKey} lat={cityLat} lng={cityLon}/>
                      </div>
                      <div css={filaClima}>
-                         <CajaClima temperatura={temperaturaActual} termica={temperaturaActual} escala = "C" clima = {climaActual} climaDESC={climaActualDescripcion} climaID={climaActualID} climaICO={climaActualICO}/>
+                         <TemperaturaActual temperatura={temperaturaActual} termica={temperaturaActual} escala = "C" clima = {climaActual} climaDESC={climaActualDescripcion} climaID={climaActualID} climaICO={climaActualICO}/>
                      </div>
                      <Box sx={{ width: '100%', typography: 'body1' }}>
                          <TabContext value={TabValue}>
@@ -144,25 +134,26 @@ useEffect(() => {
                              <TabPanel value="1">Hola, soy un placeholder</TabPanel>
                              <TabPanel value="2">
                                  <div css={filaClima}>
-                                     <CajaTarjeta tipo={1} titulo = "" descripcion= "Hora actual" extra ={zonaHoraActual}/>
-                                     <CajaTarjeta tipo={2} titulo = {amanecerActual} descripcion= "Amanecer" extra ={zonaHoraActual}/>
-                                     <CajaTarjeta tipo={3} titulo = {atardecerActual} descripcion= "Anochecer" extra ={zonaHoraActual}/>
+                                     <Tarjeta tipo={1} titulo = "" descripcion= "Hora actual" extra ={zonaHoraActual}/>
+                                     <Tarjeta tipo={2} titulo = {amanecerActual} descripcion= "Amanecer" extra ={zonaHoraActual}/>
+                                     <Tarjeta tipo={3} titulo = {atardecerActual} descripcion= "Anochecer" extra ={zonaHoraActual}/>
                                  </div>
                              </TabPanel>
                              <TabPanel value="3">
                                  <div css={filaClima}>
-                                     <CajaTarjeta tipo={4} titulo = {visibilidadActual} descripcion= "Visibilidad" extra = ""/>
-                                     <CajaTarjeta tipo={5} titulo = {humedadActual + "%"} descripcion= "Humedad" extra = ""/>
-                                     <CajaTarjeta tipo={6} titulo = {vientoActual} descripcion= "Viento" extra = ""/>
+                                     <Tarjeta tipo={4} titulo = {visibilidadActual} descripcion= "Visibilidad" extra = ""/>
+                                     <Tarjeta tipo={5} titulo = {humedadActual + "%"} descripcion= "Humedad" extra = ""/>
+                                     <Tarjeta tipo={6} titulo = {vientoActual} descripcion= "Viento" extra = ""/>
                                  </div>
                              </TabPanel>
                          </TabContext>
                      </Box>
-                     <CajaFooter/>
                      </div>
                      
                      ):(<div></div>)
                     }    
+             <Footer/>
+             <CajaClima ciudadLat={cityLat} ciudadLon={cityLon}/>
              </div>
              </div>
          );
@@ -203,43 +194,3 @@ css`
      display: flex;
      flex-direction: row;
 `;
-
-const Search = styled('div')(({ theme }) => ({
-    position: 'relative',
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
-    '&:hover': {
-      backgroundColor: alpha(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: theme.spacing(2),
-    width: '450px',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: '450px',
-    },
-  }));
-  
-  /* const SearchIconWrapper = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 2),
-    height: '100%',
-    position: 'absolute',
-    pointerEvents: 'none',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-  }));
-  
-  const StyledInputBase = styled(InputBase)(({ theme }) => ({
-    color: 'inherit',
-    '& .MuiInputBase-input': {
-      padding: theme.spacing(1, 1, 1, 0),
-      // vertical padding + font size from searchIcon
-      paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-      transition: theme.transitions.create('width'),
-      width: '100%',
-      [theme.breakpoints.up('md')]: {
-        width: '20ch',
-      },
-    },
-  }));*/
