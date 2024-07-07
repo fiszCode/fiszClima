@@ -1,21 +1,20 @@
-// NavBar
+// BuscadorCiudades
 ////////////////////
 // 
 ////////////////////
 
 // Dependencias usadas por Material UI
-import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, List, ListItem, ListItemText, Paper } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import SearchIcon from '@mui/icons-material/Search';
-import IconPlaceholder from '@mui/icons-material/HelpOutline'; // Placeholder icon, replace with your desired icons
+import { InputBase, List, ListItem, ListItemText, Paper } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search'; 
 import { styled, alpha} from '@mui/material/styles';
 import { useState, useEffect, useRef } from 'react';
 
-import Menu from '@/components/NavBar/Menu';
-import BuscadorCiudades from '@/components/NavBar/BuscadorCiudades';
+
+// 
+// onCityClick({ lon: listaCiudades[index].lon, lat: listaCiudades[index].lat})
 
 // El componente en sí
-export default function NavBar({ onCityClick }: { onCityClick: (coordenadas: { lon: number, lat: number }) => void })
+export default function BuscadorCiudades({ onCityClick }: { onCityClick: (coordenadas: { lon: number, lat: number }) => void })
 {
 
      // Utilizado para controlar la ocultación de la lista al hacer clic fuera
@@ -59,23 +58,8 @@ export default function NavBar({ onCityClick }: { onCityClick: (coordenadas: { l
          return () => {document.removeEventListener('mousedown', handleClickOutside); }
      }, [searchRef, ocultarLista])
 
-     // Para subir
-const [cityLat, setCityLat] = useState(0);
-const [cityLon, setCityLon] = useState(0);
-
      return (
-     <Box sx={{ flexGrow: 1 }}>
-         <AppBar position="fixed">
-             <Toolbar>
-                 <IconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }}>
-                     <MenuIcon/>
-                     {/*<Menu/>*/}
-                 </IconButton>
-                 <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
-                     fiszClima
-                 </Typography>
-                 <Box sx={{ flexGrow: 1 }} />
-                     <BuscadorCiudades onCityClick={({ lon, lat }) =>{onCityClick({ lon: lon, lat: lat})}}/>
+   
                      <Search ref={searchRef} onClick={() => {setOcultarLista(0)}}>
                          <SearchIconWrapper>
                              <SearchIcon />
@@ -97,17 +81,7 @@ const [cityLon, setCityLon] = useState(0);
                                  </List>
                              </Paper>     
                          )}
-                     </Search>
-                     <Box sx={{ flexGrow: 1 }} />
-                     <IconButton size="large" edge="end" color="inherit" aria-label="icon1">
-                         <IconPlaceholder />
-                     </IconButton>
-                     <IconButton size="large" edge="end" color="inherit" aria-label="icon2">
-                         <IconPlaceholder />
-                     </IconButton>
-                 </Toolbar>
-             </AppBar>
-         </Box> 
+                     </Search>                   
      )
 }
 
