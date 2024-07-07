@@ -58,27 +58,9 @@ function App()
      const [climaActualDescripcion, setClimaActualDescripcion] = useState('');
      const [infoClima, setInfoClima] = useState([]);
 
-     // Utilizados para la funcion que obtiene el nombre de las ciudades
-     //const [cityName, setCityName] = useState(''); 
-     //const [listaCiudades, setListaCiudades] = useState([]);
-     //const [ocultarLista, setOcultarLista] = useState(0);
-
      // Agrega useEffect para llamar a obtenerDatosClima cuando cambien cityLat y cityLon
      useEffect(() => { if (cityLat !== 0 && cityLon !== 0) {obtenerDatosClima()}}, [cityLat, cityLon]);
-     // setOcultarLista(1)
      
-     /* // Función utilizada para obtener la lista de ciudades
-     const obtenerNombreCiudades = async () => {
-         console.log("obtenerNombreCiudades")
-         if (cityName !== '') {
-             const url = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=10&appid=72a8af477f23cc2e1c7eb81e9a142367`;
-             const response = await fetch(url);
-             const jsonData = await response.json();
-             setListaCiudades(jsonData);
-             //setEstadoPagina("B");
-         } else {console.log("Ciudad vacia")}
-     };*/
-
      // Función async encargada de obtener los datos de la API
      const obtenerDatosClima = async () => 
      {
@@ -114,42 +96,6 @@ function App()
          setEstadoPagina("C");
      }
      
-     /* // Lógica utilizada por el buscador de la AppBar
-
-     const [cajaCiudad, setCajaCiudad] = useState('');
-     const [results, setResults] = useState([]);*/
-
-     // Agrega useEffect para llamar a obtenerNombreCiudades cuando cambia CityName
-    /* useEffect(() => {
-         obtenerNombreCiudades()
-       }, [cityName]);
-
-     // Agrega useEffect para llamar a obtenerNombreCiudades cuando cambia cajaCiudad
-      useEffect(() => {
-         setCityName(cajaCiudad)
-             //obtenerNombreCiudades()
-        }, [cajaCiudad]);*/
-
-
-    // Manejar cambios en Caja Ciudad
-     /*const handleSearchChange = (event) => {
-         setCajaCiudad(event.target.value);
-             //setCityName(cajaCiudad)
-             //obtenerNombreCiudades()  
-     };*/
-
-
-     // Manejador de eventos para detectar clics fuera del componente
-     /*useEffect(() => {
-         const handleClickOutside = (event) => {
-             if (searchRef.current && !searchRef.current.contains(event.target)) {
-                 setOcultarLista(1);  // Oculta la lista al hacer clic fuera del componente
-             }
-         };
-         document.addEventListener('mousedown', handleClickOutside);
-         return () => {document.removeEventListener('mousedown', handleClickOutside); }}, [searchRef, ocultarLista])
-*/
-
          const [TabValue, setTabValue] = React.useState('2');
          const handleTabChange = (event: React.SyntheticEvent, newTabValue: string) => {
            setTabValue(newTabValue);} 
@@ -274,7 +220,7 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
   
-  const SearchIconWrapper = styled('div')(({ theme }) => ({
+  /* const SearchIconWrapper = styled('div')(({ theme }) => ({
     padding: theme.spacing(0, 2),
     height: '100%',
     position: 'absolute',
@@ -296,4 +242,4 @@ const Search = styled('div')(({ theme }) => ({
         width: '20ch',
       },
     },
-  }));
+  }));*/
