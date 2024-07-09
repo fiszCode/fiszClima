@@ -23,7 +23,7 @@ export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadT
      // Función utilizada para obtener la lista de ciudades
      const obtenerNombreCiudades = async () => {
          if (cityName !== '') {
-             const url = `http://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=10&appid=72a8af477f23cc2e1c7eb81e9a142367`;
+             const url = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=10&appid=72a8af477f23cc2e1c7eb81e9a142367`;
              const response = await fetch(url);
              const jsonData = await response.json();
              setListaCiudades(jsonData);
