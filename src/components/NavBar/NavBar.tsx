@@ -11,7 +11,7 @@ import BuscadorCiudades from '@/components/NavBar/BuscadorCiudades';
 // El componente en sí
 
 type NavBarProps = {
-    pasarNavBarToApp: (coordenadas: { lonNavBar: number; latNavBar: number; }, pagActualNavBar: number) => void;
+    pasarNavBarToApp: (coordenadas: { lonNavBar: number; latNavBar: number; }) => void;
     pasarPagActualToApp: (pagActualMenu: number) => void;
   };
   

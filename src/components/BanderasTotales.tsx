@@ -37,7 +37,7 @@ const BanderasTotales = () => {
 
   return (
     <div css={cajaClima}>
-      {countryCodes.reduce((acc, code, index) => {
+      {countryCodes.reduce((acc:any, code:any, index:any) => {
         // Cada 4 iteraciones, añadir un nuevo div filaClima al array acumulador
         if (index % 4 === 0) {
           acc.push([]);
@@ -45,7 +45,7 @@ const BanderasTotales = () => {
         // Añadir la bandera al último div filaClima en el array acumulador
         acc[acc.length - 1].push(<BanderaPais key={index} siglas={code} />);
         return acc;
-      }, []).map((fila, i) => (
+      }, []).map((fila:any, i:any) => (
         <div key={i} css={filaClima}>
           {fila}
         </div>

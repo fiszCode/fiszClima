@@ -13,11 +13,11 @@ import { useState, useEffect, useRef } from 'react';
 export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadToNavBar: (coordenadas: { lon: number, lat: number }) => void })
 {
      // Utilizado para controlar la ocultación de la lista al hacer clic fuera
-     const searchRef = useRef(null);
+     const searchRef = useRef<any>(null);
 
      // Utilizados para la funcion que obtiene el nombre de las ciudades
      const [cityName, setCityName] = useState(''); 
-     const [listaCiudades, setListaCiudades] = useState([]);
+     const [listaCiudades, setListaCiudades] = useState<any>([]);
      const [ocultarLista, setOcultarLista] = useState(0);
 
      // Función utilizada para obtener la lista de ciudades
@@ -34,7 +34,7 @@ export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadT
      const [cajaCiudad, setCajaCiudad] = useState('');
 
      // Manejar cambios en la caja del buscador
-     const handleSearchChange = (event) => {cityName !== '' && obtenerNombreCiudades(event.target.value)};
+     const handleSearchChange = (event:any) => {setCajaCiudad(event.target.value)};
 
      // Agrega useEffect cambiar CityName cuando cambia cajaCiudad
      useEffect(() => {setCityName(cajaCiudad)}, [cajaCiudad]);
@@ -44,7 +44,7 @@ export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadT
 
      // Manejador de eventos para detectar clics fuera del componente
      useEffect(() => {
-         const handleClickOutside = (event) => {
+         const handleClickOutside = (event:any) => {
              if (searchRef.current && !searchRef.current.contains(event.target)) {
                  setOcultarLista(1);  // Oculta la lista al hacer clic fuera del componente
              }
@@ -62,7 +62,7 @@ export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadT
              {cajaCiudad.length > 0 && listaCiudades.length > 0 && ocultarLista === 0 && (
                  <Paper sx={{ position: 'absolute', zIndex: 1, top: '100%', left: 0, right: 0 }}>
                      <List>
-                         {listaCiudades.map((item, index) => {
+                         {listaCiudades.map((item:any, index:any) => {
                              const name = item.name ? item.name : "";
                              const state = item.state ? `, ${item.state}` : "";
                              const country = item.country ? `, ${item.country}` : "";
