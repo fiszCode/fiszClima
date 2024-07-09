@@ -1,6 +1,11 @@
+// NombreCiudad
+////////////////////
+// Componente utilizado para mostrar la ciudad
+////////////////////
+
 import {css} from "@emotion/react"; 
 
-// Componente utilizado para mostrar la ciudad
+
 interface CiudadType
 {
      ciudad: string;

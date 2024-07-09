@@ -1,4 +1,6 @@
-// components/MapComponent.tsx
+// Mapa
+////////////////////
+
 import React from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';

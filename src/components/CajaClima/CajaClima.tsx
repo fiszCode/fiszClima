@@ -47,7 +47,9 @@ export default function CajaClima({ciudadLat, ciudadLon}: ClimaType)
      const [climaActualDescripcion, setClimaActualDescripcion] = useState('');
 
      // Agrega useEffect para llamar a obtenerDatosClima cuando cambien ciudadLat y ciudadLon
-     useEffect(() => { if (ciudadLat !== 0 && ciudadLon !== 0) {obtenerDatosClima()}}, [ciudadLat, ciudadLon]);
+     useEffect(() => { 
+        ciudadLat !== 0 && ciudadLon !== 0 && obtenerDatosClima()
+    }, [ciudadLat, ciudadLon]);
 
      // Función async encargada de obtener los datos de la API
      const obtenerDatosClima = async () => 
@@ -149,7 +151,7 @@ export default function CajaClima({ciudadLat, ciudadLon}: ClimaType)
      }
 }
 // CSS ---------------------
-// Toda esta mierda podria estar en style.ts y ser reutilizable haciendo un export/import en cualquier otro archivito de mierda
+// Toda esto podria estar en style.ts y ser reutilizable haciendo un export/import en cualquier otro archivito de mierda
 
 const cajaClima = 
 css`

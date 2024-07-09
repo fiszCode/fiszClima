@@ -1,32 +1,32 @@
 // NavBar
 ////////////////////
-// 
-////////////////////
 
 // Dependencias usadas por Material UI
-import { AppBar, Box, Toolbar, IconButton, Typography, InputBase, List, ListItem, ListItemText, Paper } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
+import { AppBar, Box, Toolbar, IconButton, Typography} from '@mui/material';
 import IconPlaceholder from '@mui/icons-material/HelpOutline'; // Placeholder icon, replace with your desired icons
 
 import Menu from '@/components/NavBar/Menu';
 import BuscadorCiudades from '@/components/NavBar/BuscadorCiudades';
 
 // El componente en sí
-export default function NavBar({ onCityClick }: { onCityClick: (coordenadas: { lon: number, lat: number }) => void })
-{
+
+type NavBarProps = {
+    pasarNavBarToApp: (coordenadas: { lonNavBar: number; latNavBar: number; }, pagActualNavBar: number) => void;
+    pasarPagActualToApp: (pagActualMenu: number) => void;
+  };
+  
+  export default function NavBar({pasarNavBarToApp, pasarPagActualToApp}: NavBarProps) {
      return (
      <Box sx={{ flexGrow: 1 }}>
          <AppBar position="fixed">
              <Toolbar>
-                 <IconButton size="large" edge="start" color="inherit" aria-label="open drawer" sx={{ mr: 2 }}>
-                     <MenuIcon/>
-                     {/*<Menu/>*/}
-                 </IconButton>
+                 <Menu pasarMenuToNavBar={(pagActualMenu) =>{pasarPagActualToApp(pagActualMenu)}} />
                  <Typography variant="h6" noWrap component="div" sx={{ display: { xs: 'none', sm: 'block' } }}>
                      fiszClima
                  </Typography>
                  <Box sx={{ flexGrow: 1 }} />
-                     <BuscadorCiudades onCityClick={({ lon, lat }) =>{onCityClick({ lon: lon, lat: lat})}}/>
+                     <BuscadorCiudades pasarCiudadToNavBar={({ lon, lat }) =>{
+                        pasarNavBarToApp({lonNavBar: lon, latNavBar: lat})}}/>
                      <Box sx={{ flexGrow: 1 }} />
                      <IconButton size="large" edge="end" color="inherit" aria-label="icon1">
                          <IconPlaceholder />

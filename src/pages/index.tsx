@@ -11,17 +11,20 @@ import NavBar from '@/components/NavBar/NavBar';
 // Importamos los componentes propios
 import CajaClima from "@/components/CajaClima/CajaClima"; 
 import Footer from "@/components/Footer"; 
+import BanderasTotales from "@/components/BanderasTotales"; 
 
 // Componente principal
 function App() 
-{
+{   
+     const [paginaActual, setPaginaActual] = useState(1);
      const [cityLat, setCityLat] = useState(0);
      const [cityLon, setCityLon] = useState(0);
      return (
          <div>
-             <NavBar onCityClick={({ lon, lat }) =>{setCityLon(lon);setCityLat(lat)}}/>
+             <NavBar pasarNavBarToApp={({lonNavBar, latNavBar}) =>{setCityLon(lonNavBar); setCityLat(latNavBar);}} pasarPagActualToApp={(pagActualMenu) =>{setPaginaActual(pagActualMenu)}} />
              <div css={cajaPadre}>
-                 <CajaClima ciudadLat={cityLat} ciudadLon={cityLon}/>
+                 {paginaActual === 1 && <CajaClima ciudadLat={cityLat} ciudadLon={cityLon}/>}
+                 {paginaActual === 2 && <BanderasTotales/>}
                  <Footer/>
              </div>
          </div>

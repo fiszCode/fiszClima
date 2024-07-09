@@ -9,14 +9,9 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha} from '@mui/material/styles';
 import { useState, useEffect, useRef } from 'react';
 
-
-// 
-// onCityClick({ lon: listaCiudades[index].lon, lat: listaCiudades[index].lat})
-
 // El componente en sí
-export default function BuscadorCiudades({ onCityClick }: { onCityClick: (coordenadas: { lon: number, lat: number }) => void })
+export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadToNavBar: (coordenadas: { lon: number, lat: number }) => void })
 {
-
      // Utilizado para controlar la ocultación de la lista al hacer clic fuera
      const searchRef = useRef(null);
 
@@ -39,7 +34,7 @@ export default function BuscadorCiudades({ onCityClick }: { onCityClick: (coorde
      const [cajaCiudad, setCajaCiudad] = useState('');
 
      // Manejar cambios en la caja del buscador
-     const handleSearchChange = (event) => {setCajaCiudad(event.target.value)};
+     const handleSearchChange = (event) => {cityName !== '' && obtenerNombreCiudades(event.target.value)};
 
      // Agrega useEffect cambiar CityName cuando cambia cajaCiudad
      useEffect(() => {setCityName(cajaCiudad)}, [cajaCiudad]);
@@ -59,29 +54,28 @@ export default function BuscadorCiudades({ onCityClick }: { onCityClick: (coorde
      }, [searchRef, ocultarLista])
 
      return (
-   
-                     <Search ref={searchRef} onClick={() => {setOcultarLista(0)}}>
-                         <SearchIconWrapper>
-                             <SearchIcon />
-                         </SearchIconWrapper>
-                         <StyledInputBase placeholder="Buscar ciudad..." inputProps={{ 'aria-label': 'search' }} value={cajaCiudad} onChange={handleSearchChange}/>
-                         {cajaCiudad.length > 0 && listaCiudades.length > 0 && ocultarLista === 0 && (
-                             <Paper sx={{ position: 'absolute', zIndex: 1, top: '100%', left: 0, right: 0 }}>
-                                 <List>
-                                     {listaCiudades.map((item, index) => {
-                                         const name = item.name ? item.name : "";
-                                         const state = item.state ? `, ${item.state}` : "";
-                                         const country = item.country ? `, ${item.country}` : "";
-                                         return (
-                                             <ListItem  button key={index} onClick={()=> onCityClick({ lon: listaCiudades[index].lon, lat: listaCiudades[index].lat})}>
-                                                 <ListItemText primary={`${name}${state}${country}`} />
-                                             </ListItem>
-                                         );
-                                     })}
-                                 </List>
-                             </Paper>     
-                         )}
-                     </Search>                   
+         <Search ref={searchRef} onClick={() => {setOcultarLista(0)}}>
+             <SearchIconWrapper>
+                 <SearchIcon />
+             </SearchIconWrapper>
+             <StyledInputBase placeholder="Buscar ciudad..." inputProps={{ 'aria-label': 'search' }} value={cajaCiudad} onChange={handleSearchChange}/>
+             {cajaCiudad.length > 0 && listaCiudades.length > 0 && ocultarLista === 0 && (
+                 <Paper sx={{ position: 'absolute', zIndex: 1, top: '100%', left: 0, right: 0 }}>
+                     <List>
+                         {listaCiudades.map((item, index) => {
+                             const name = item.name ? item.name : "";
+                             const state = item.state ? `, ${item.state}` : "";
+                             const country = item.country ? `, ${item.country}` : "";
+                                 return (
+                                     <ListItem  button key={index} onClick={()=> pasarCiudadToNavBar({ lon: listaCiudades[index].lon, lat: listaCiudades[index].lat})}>
+                                         <ListItemText primary={`${name}${state}${country}`} />
+                                     </ListItem>
+                                 );
+                             })}
+                     </List>
+                 </Paper>     
+             )}
+         </Search>                   
      )
 }
 
