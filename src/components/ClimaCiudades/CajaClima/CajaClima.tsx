@@ -59,7 +59,7 @@ export default function CajaClima({ciudadLat, ciudadLon}: ClimaType)
      const obtenerDatosClima = async () => 
      {
          // Accedemos a la API
-         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${ciudadLat}&lon=${ciudadLon}&appid=72a8af477f23cc2e1c7eb81e9a142367`;
+         const url = `https://api.openweathermap.org/data/2.5/weather?lat=${ciudadLat}&lon=${ciudadLon}&appid=72a8af477f23cc2e1c7eb81e9a142367&lang=es`;
          const response = await fetch(url);
          const jsonData = await response.json();
          

@@ -38,12 +38,16 @@ export default function Tarjeta({tipo, titulo, descripcion, extra}: TarjetaType)
      }
      if ((tipo === 3) || (tipo === 2))
      {
-         titulo = parseInt(titulo)
+         // Suponiendo que `titulo` es la marca de tiempo UNIX y `timezoneOffsetSeconds` es la variación en segundos de la zona horaria
+         titulo = parseInt(titulo);
+             let timezoneOffsetSeconds = extra; // Ejemplo: -14400 para UTC-4 (EDT)
+         // Crear el objeto Date desde la marca de tiempo UNIX
          let fecha = new Date(titulo * 1000);
-         console.log("Hora unix transformada " + fecha)
-          // Obtener horas y minutos
-         let horas = fecha.getHours();
-         let minutos = fecha.getMinutes();
+         // Ajustar la fecha según la variación de la zona horaria
+         fecha = new Date(fecha.getTime() + timezoneOffsetSeconds * 1000);
+         // Obtener horas y minutos ajustados
+         let horas = fecha.getUTCHours();
+         let minutos = fecha.getUTCMinutes();
          // Asegurarse de que los minutos tengan dos dígitos
          let minuts = minutos < 10 ? '0' + minutos : minutos;
          // Crear la cadena en el formato "HH:MM"

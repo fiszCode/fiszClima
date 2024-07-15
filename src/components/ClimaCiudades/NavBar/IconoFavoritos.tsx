@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import IconButton from '@mui/material/IconButton';
 import { Badge } from '@mui/material';
@@ -16,8 +16,16 @@ const IconoFavoritos = () => {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
+  useEffect(() => {
+    if (consultas.length === 0) {
+      handleClose();
+    }
+  }, [consultas]);
+
   const handleClick = (event) => {
-    consultas.length > 0 && setAnchorEl(event.currentTarget);
+    if (consultas.length > 0) {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleClose = () => {
@@ -26,19 +34,17 @@ const IconoFavoritos = () => {
 
   const handleDelete = (consulta) => {
     dispatch(quitarCiudadFavorita(consulta));
-    consultas.length < 1 && setAnchorEl(null);
   };
 
   const handleSeleccionCiudad = (consulta) => {
-     console.log("Clic en ciudad")
+     console.log("Clic en ciudad");
   };
 
   return (
     <>
       <IconButton size="large" edge="end" color="inherit" aria-label="icon2" onClick={handleClick}>
-      <Badge badgeContent={consultas.length} color="error">
-        {/*<StarIcon/>*/}
-        {consultas.length > 0 ? <FaStar /> : <FaRegStar />}
+        <Badge badgeContent={consultas.length} color="error">
+          {consultas.length > 0 ? <FaStar /> : <FaRegStar />}
         </Badge>
       </IconButton>
       <Menu
@@ -48,7 +54,7 @@ const IconoFavoritos = () => {
       >
         {consultas.map((consulta, index) => (
           <MenuItem key={index}>
-            <ListItemText primary={consulta} onClick={() => handleSeleccionCiudad(consulta)}/>
+            <ListItemText primary={consulta} onClick={() => handleSeleccionCiudad(consulta)} />
             <ListItemIcon onClick={() => handleDelete(consulta)}>
               <IconButton edge="end" color="secondary">
                 <DeleteIcon />
@@ -57,7 +63,6 @@ const IconoFavoritos = () => {
           </MenuItem>
         ))}
       </Menu>
-      
     </>
   );
 };

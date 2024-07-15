@@ -37,7 +37,7 @@ export default function TemperaturaActual({temperatura, termica, escala, clima, 
                  </div>
                  <div css={hijo} className="margin-left: auto">
                      <img src={iconoClima} alt="Imagen" className="max-width: 100%; max-height: 100%;"></img>
-                     <div css={letraChica}>{climaDESC}</div>
+                     <div css={letraChica}>{climaDESC.charAt(0).toUpperCase() + climaDESC.slice(1)}</div>
                      <div css={letraChica}>{terFinal.toFixed(0)}° {escala} de sensación térmica</div>
                  </div>
              </div>
