@@ -8,6 +8,10 @@
 import React, { useState, useEffect} from 'react';
 import {css} from "@emotion/react"; 
 
+// Importaciones de Redux
+import { useSelector} from 'react-redux';
+import ContadorTest from '@/components/TestRedux/ContadorTest';
+
 // Dependencias usadas por Material UI
 import {Box} from '@mui/material';
 import Tab from '@mui/material/Tab';
@@ -17,10 +21,10 @@ import TabPanel from '@mui/lab/TabPanel';
 import dynamic from 'next/dynamic';
 
 // Importamos los componentes propios
-import TemperaturaActual from "@/components/CajaClima/TemperaturaActual"; // C
-import BanderaPais from "@/components/CajaClima/BanderaPais"; // C
-import NombreCiudad from "@/components/CajaClima/NombreCiudad"; // C
-import Tarjeta from "@/components/CajaClima/Tarjeta"; // C
+import TemperaturaActual from "@/components/ClimaCiudades/CajaClima/TemperaturaActual"; // C
+import BanderaPais from "@/components/ClimaCiudades/CajaClima/BanderaPais"; // C
+import NombreCiudad from "@/components/ClimaCiudades/CajaClima/NombreCiudad"; // C
+import Tarjeta from "@/components/ClimaCiudades/CajaClima/Tarjeta"; // C
 
 // El componente en si
 interface ClimaType {ciudadLat: number; ciudadLon: number;}
@@ -86,7 +90,7 @@ export default function CajaClima({ciudadLat, ciudadLon}: ClimaType)
      setTabValue(newTabValue);} 
 
      // Importamos el componente Mapa
-     const Mapa = dynamic(() => import('@/components/CajaClima/Mapa'), {
+     const Mapa = dynamic(() => import('@/components/ClimaCiudades/CajaClima/Mapa'), {
          ssr: false, // Toda esta cosa dynamic medio overkill es para forzar que se actualice al cambiar de ciudad
      });
 
@@ -101,6 +105,9 @@ export default function CajaClima({ciudadLat, ciudadLon}: ClimaType)
      {
          return (
              <div>
+                 <div css={textoContador}>
+                     Consultas realizadas: {useSelector(state => state.contadorConsultas.value)}
+                 </div>
                  {estadoPagina === "C" ? (
                      <div css={cajaClima}>
                          <div css={filaClima}>
@@ -111,7 +118,7 @@ export default function CajaClima({ciudadLat, ciudadLon}: ClimaType)
                              <Mapa key={mapKey} lat={ciudadLat} lng={ciudadLon}/>
                          </div>
                          <div css={filaClima}>
-                             <TemperaturaActual temperatura={temperaturaActual} termica={temperaturaActual} escala = "C" clima = {climaActual} climaDESC={climaActualDescripcion} climaID={climaActualID} climaICO={climaActualICO}/>
+                             <TemperaturaActual temperatura={temperaturaActual} termica={termicaActual} escala = "C" clima = {climaActual} climaDESC={climaActualDescripcion} climaID={climaActualID} climaICO={climaActualICO} Tmaxima={maximaActual} Tminima={minimaActual}/>
                          </div>
                          <Box sx={{ width: '100%', typography: 'body1' }}>
                              <TabContext value={TabValue}>
@@ -164,4 +171,9 @@ const filaClima =
 css`
      display: flex;
      flex-direction: row;
+`;
+const textoContador = css`  
+     color: #084b8f;
+     font-weight: bold; 
+     text-align: left;
 `;

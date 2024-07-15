@@ -1,4 +1,4 @@
-import BanderaPais from "@/components/CajaClima/BanderaPais"; // C
+import BanderaPais from "@/components/ClimaCiudades/CajaClima/BanderaPais"; // C
 import {css} from "@emotion/react"; 
 
 const countryCodes = [

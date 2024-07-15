@@ -4,14 +4,18 @@
 // Importamos la dependencias básicas
 import React, { useState} from 'react';
 import {css} from "@emotion/react"; 
+import { useSelector} from 'react-redux';
 
 // Dependencias usadas por Material UI
-import NavBar from '@/components/NavBar/NavBar';
+import NavBar from '@/components/ClimaCiudades/NavBar/NavBar';
 
 // Importamos los componentes propios
-import CajaClima from "@/components/CajaClima/CajaClima"; 
-import Footer from "@/components/Footer"; 
-import BanderasTotales from "@/components/BanderasTotales"; 
+import CajaClima from "@/components/ClimaCiudades/CajaClima/CajaClima"; 
+import Footer from "@/components/ClimaCiudades/Footer"; 
+import BanderasTotales from "@/components/BanderasPaises/BanderasTotales"; 
+
+import ContadorTest from '@/components/TestRedux/ContadorTest';
+import ListaStringTest from '@/components/TestRedux/ListaStringTest';
 
 // Componente principal
 function App() 
@@ -25,7 +29,9 @@ function App()
              <div css={cajaPadre}>
                  {paginaActual === 1 && <CajaClima ciudadLat={cityLat} ciudadLon={cityLon}/>}
                  {paginaActual === 2 && <BanderasTotales/>}
+                 {paginaActual === 3 && <><ContadorTest/><ListaStringTest/></>}
                  <Footer/>
+                 {/*<CajaClima ciudadLat= {43.270804} ciudadLon={49.433017}/>*/}
              </div>
          </div>
      );
@@ -41,4 +47,9 @@ const cajaPadre = css`
      padding-top:  75px; 
      border-radius: 10px;
      text-align: center;
+`;
+const textoContador = css`  
+     color: #084b8f;
+     font-weight: bold; 
+     text-align: left;
 `;

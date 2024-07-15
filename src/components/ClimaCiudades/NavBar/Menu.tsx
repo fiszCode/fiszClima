@@ -15,6 +15,7 @@ import ListItemText from '@mui/material/ListItemText';
 import CloudIcon from '@mui/icons-material/Cloud';
 import FlagIcon from '@mui/icons-material/Flag';
 import MenuIcon from '@mui/icons-material/Menu';
+import StorageIcon from '@mui/icons-material/Storage';
 
 // El componente en si
 export default function Menu({pasarMenuToNavBar}: {pasarMenuToNavBar: (pagActualMenu: number) => void }) {
@@ -33,7 +34,6 @@ export default function Menu({pasarMenuToNavBar}: {pasarMenuToNavBar: (pagActual
                      </ListItemButton>
                  </ListItem>
              </List>
-             <Divider />
              <List>
                  <ListItem disablePadding>
                      <ListItemButton onClick={()=>pasarMenuToNavBar(2)}>
@@ -41,6 +41,17 @@ export default function Menu({pasarMenuToNavBar}: {pasarMenuToNavBar: (pagActual
                              <FlagIcon style={{ color: '#084b8f' }}/>
                          </ListItemIcon>
                          <ListItemText primary="Banderas del mundo" />
+                     </ListItemButton>
+                 </ListItem>
+             </List>
+             <Divider />
+             <List>
+                 <ListItem disablePadding>
+                     <ListItemButton onClick={()=>pasarMenuToNavBar(3)}>
+                         <ListItemIcon>
+                             <StorageIcon style={{ color: '#084b8f' }}/>
+                         </ListItemIcon>
+                         <ListItemText primary="Redux test" />
                      </ListItemButton>
                  </ListItem>
              </List>

@@ -11,14 +11,17 @@ interface TemperaturaType
      climaID: string;
      climaDESC: string;
      climaICO: string;
+     Tminima: string;
+     Tmaxima: string;
 }
 
 // El componente/funcion en si mismo
-export default function TemperaturaActual({temperatura, termica, escala, clima, climaID, climaDESC, climaICO}: TemperaturaType)
+export default function TemperaturaActual({temperatura, termica, escala, clima, climaID, climaDESC, climaICO, Tminima, Tmaxima}: TemperaturaType)
      {
          let tempFinal = parseInt(temperatura), terFinal = parseInt(termica)
          tempFinal = tempFinal - 273.15
          terFinal = terFinal - 273.15
+         const textoTemp = tempFinal.toFixed(0) + "°" + escala
          let iconoClima = "https://openweathermap.org/img/wn/" + climaICO + "@2x.png"
          return (
             <div 
@@ -26,14 +29,16 @@ export default function TemperaturaActual({temperatura, termica, escala, clima, 
             style={{}}
           >
                  <div css={hijo} className="margin-right: auto;">
-                     <div css={letraGrande}>
-                         {tempFinal.toFixed(0)}° {escala}
-                     </div>
+                     {textoTemp.length > 4 && <div css={letraMediana}>{textoTemp}</div>}    
+                     {textoTemp.length < 5 && <div css={letraGrande}>{textoTemp}</div>}
+                     <div css={letraChica}>
+                         MIN: {(parseInt(Tminima)- 273.15).toFixed(0)}°{escala} / MAX: {(parseInt(Tmaxima)- 273.15).toFixed(0)}°{escala}
+                     </div>     
                  </div>
                  <div css={hijo} className="margin-left: auto">
                      <img src={iconoClima} alt="Imagen" className="max-width: 100%; max-height: 100%;"></img>
                      <div css={letraChica}>{climaDESC}</div>
-                     <div css={letraChica}>Feels like {terFinal.toFixed(0)}° {escala}</div>
+                     <div css={letraChica}>{terFinal.toFixed(0)}° {escala} de sensación térmica</div>
                  </div>
              </div>
          );
@@ -63,6 +68,11 @@ const hijo = css`
 
 const letraGrande = css`
      font-size: 150px;
+     color: #084b8f; /* Cambia el color del texto si es necesario */
+`;
+
+const letraMediana = css`
+     font-size: 120px;
      color: #084b8f; /* Cambia el color del texto si es necesario */
 `;
 

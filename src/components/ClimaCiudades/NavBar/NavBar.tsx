@@ -5,8 +5,9 @@
 import { AppBar, Box, Toolbar, IconButton, Typography} from '@mui/material';
 import IconPlaceholder from '@mui/icons-material/HelpOutline'; // Placeholder icon, replace with your desired icons
 
-import Menu from '@/components/NavBar/Menu';
-import BuscadorCiudades from '@/components/NavBar/BuscadorCiudades';
+import Menu from '@/components/ClimaCiudades/NavBar/Menu';
+import BuscadorCiudades from '@/components/ClimaCiudades/NavBar/BuscadorCiudades';
+import IconoFavoritos from '@/components/ClimaCiudades/NavBar/IconoFavoritos';
 
 // El componente en sí
 
@@ -28,12 +29,10 @@ type NavBarProps = {
                      <BuscadorCiudades pasarCiudadToNavBar={({ lon, lat }) =>{
                         pasarNavBarToApp({lonNavBar: lon, latNavBar: lat})}}/>
                      <Box sx={{ flexGrow: 1 }} />
-                     <IconButton size="large" edge="end" color="inherit" aria-label="icon1">
-                         <IconPlaceholder />
-                     </IconButton>
-                     <IconButton size="large" edge="end" color="inherit" aria-label="icon2">
-                         <IconPlaceholder />
-                     </IconButton>
+                     <IconoFavoritos/>
+                     {/*<IconButton size="large" edge="end" color="inherit" aria-label="icon2">
+                         <IconPlaceholder/>
+                     </IconButton>*/}
                  </Toolbar>
              </AppBar>
          </Box> 

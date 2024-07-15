@@ -8,10 +8,17 @@ import { InputBase, List, ListItem, ListItemText, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'; 
 import { styled, alpha} from '@mui/material/styles';
 import { useState, useEffect, useRef } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import {asignarCiudadActual, quitarCiudadActual} from '@/store/slices/ciudadActualSlice';
+import { incrementContadorConsultas, decrementContadorConsultas, resetContadorConsulta} from '@/store/slices/contadorConsultasSlice';
 
 // El componente en sí
 export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadToNavBar: (coordenadas: { lon: number, lat: number }) => void })
 {
+     // Para manejarel contador de Redux
+     const count = useSelector(state => state.contadorConsultas.value);
+     const dispatch = useDispatch();
+    
      // Utilizado para controlar la ocultación de la lista al hacer clic fuera
      const searchRef = useRef<any>(null);
 
@@ -67,7 +74,11 @@ export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadT
                              const state = item.state ? `, ${item.state}` : "";
                              const country = item.country ? `, ${item.country}` : "";
                                  return (
-                                     <ListItem  button key={index} onClick={()=> pasarCiudadToNavBar({ lon: listaCiudades[index].lon, lat: listaCiudades[index].lat})}>
+                                     <ListItem  button key={index} onClick={() => {
+                                        pasarCiudadToNavBar({ lon: listaCiudades[index].lon, lat: listaCiudades[index].lat });
+                                        dispatch(incrementContadorConsultas())
+                                        dispatch(asignarCiudadActual(name))
+                                      }}>
                                          <ListItemText primary={`${name}${state}${country}`} />
                                      </ListItem>
                                  );
