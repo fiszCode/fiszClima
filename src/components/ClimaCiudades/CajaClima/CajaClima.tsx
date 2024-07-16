@@ -9,8 +9,10 @@ import React, { useState, useEffect} from 'react';
 import {css} from "@emotion/react"; 
 
 // Importaciones de Redux
-import { useSelector} from 'react-redux';
-import ContadorTest from '@/components/TestRedux/ContadorTest';
+import { TypedUseSelectorHook, useSelector} from 'react-redux';
+import { RootState } from '@/store/store';
+
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 // Dependencias usadas por Material UI
 import {Box} from '@mui/material';
@@ -100,62 +102,75 @@ export default function CajaClima({ciudadLat, ciudadLon}: ClimaType)
      // Incrementa la clave cuando cambien ciudadLat y ciudadLon
      useEffect(() => {setMapKey(Date.now())}, [ciudadLat, ciudadLon]);
 
-     // Return de la página 
-     if (estadoPagina !== "error") 
-     {
-         return (
-             <div>
-                 <div css={textoContador}>
-                     Consultas realizadas: {useSelector(state => state.contadorConsultas.value)}
-                 </div>
-                 {estadoPagina === "C" ? (
-                     <div css={cajaClima}>
-                         <div css={filaClima}>
-                             <BanderaPais siglas={paisActual}/>
-                             <NombreCiudad ciudad={ciudadActual}/>
-                         </div>
-                         <div css={filaClima}>
-                             <Mapa key={mapKey} lat={ciudadLat} lng={ciudadLon}/>
-                         </div>
-                         <div css={filaClima}>
-                             <TemperaturaActual temperatura={temperaturaActual} termica={termicaActual} escala = "C" clima = {climaActual} climaDESC={climaActualDescripcion} climaID={climaActualID} climaICO={climaActualICO} Tmaxima={maximaActual} Tminima={minimaActual}/>
-                         </div>
-                         <Box sx={{ width: '100%', typography: 'body1' }}>
-                             <TabContext value={TabValue}>
-                                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                                     <TabList centered onChange={handleTabChange} aria-label="lab API tabs example">
-                                         <Tab label={<span style={{ fontWeight: 'bold'}}>Semanal</span>} value="1" disabled />
-                                         <Tab label={<span style={{ fontWeight: 'bold', color: '#084b8f' }}>Amanecer/Atardecer</span>} value="2" />
-                                         <Tab label={<span style={{ fontWeight: 'bold', color: '#084b8f' }}>+ Info</span>} value="3" />
-                                     </TabList>
-                                 </Box>
-                                 <TabPanel value="1">Hola, soy un placeholder</TabPanel>
-                                 <TabPanel value="2">
-                                     <div css={filaClima}>
-                                         <Tarjeta tipo={1} titulo = "" descripcion= "Hora actual" extra ={zonaHoraActual}/>
-                                         <Tarjeta tipo={2} titulo = {amanecerActual} descripcion= "Amanecer" extra ={zonaHoraActual}/>
-                                         <Tarjeta tipo={3} titulo = {atardecerActual} descripcion= "Anochecer" extra ={zonaHoraActual}/>
-                                     </div>
-                                 </TabPanel>
-                                 <TabPanel value="3">
-                                     <div css={filaClima}>
-                                         <Tarjeta tipo={4} titulo = {visibilidadActual} descripcion= "Visibilidad" extra = ""/>
-                                         <Tarjeta tipo={5} titulo = {humedadActual + "%"} descripcion= "Humedad" extra = ""/>
-                                         <Tarjeta tipo={6} titulo = {vientoActual} descripcion= "Viento" extra = ""/>
-                                     </div>
-                                 </TabPanel>
-                             </TabContext>
-                         </Box>
+     //const contadorConsultas = useSelector(state => state.contadorConsultas.value);
+     const contadorConsultas = useTypedSelector(state => state.contadorConsultas.value);
+
+     return (
+         <div>
+             {estadoPagina !== "error" ? (
+                 <>
+                     <div css={textoContador}>
+                         Consultas realizadas: {contadorConsultas}
                      </div>
-                     ):(<div></div>)
-                 }
-             </div> 
-         )
-     }
-     if (estadoPagina === "error") 
-     {
-         return (<div>No se que paso papu 🤌</div>);
-     }
+                     {estadoPagina === "C" ? (
+                         <div css={cajaClima}>
+                             <div css={filaClima}>
+                                 <BanderaPais siglas={paisActual}/>
+                                 <NombreCiudad ciudad={ciudadActual}/>
+                             </div>
+                             <div css={filaClima}>
+                                 <Mapa key={mapKey} lat={ciudadLat} lng={ciudadLon}/>
+                             </div>
+                             <div css={filaClima}>
+                                 <TemperaturaActual 
+                                     temperatura={temperaturaActual} 
+                                     termica={termicaActual} 
+                                     escala="C" 
+                                     clima={climaActual} 
+                                     climaDESC={climaActualDescripcion} 
+                                     climaID={climaActualID} 
+                                     climaICO={climaActualICO} 
+                                     Tmaxima={maximaActual} 
+                                     Tminima={minimaActual}
+                                 />
+                             </div>
+                             <Box sx={{ width: '100%', typography: 'body1' }}>
+                                 <TabContext value={TabValue}>
+                                     <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                         <TabList centered onChange={handleTabChange} aria-label="lab API tabs example">
+                                             <Tab label={<span style={{ fontWeight: 'bold'}}>Semanal</span>} value="1" disabled />
+                                             <Tab label={<span style={{ fontWeight: 'bold', color: '#084b8f' }}>Amanecer/Atardecer</span>} value="2" />
+                                             <Tab label={<span style={{ fontWeight: 'bold', color: '#084b8f' }}>+ Info</span>} value="3" />
+                                         </TabList>
+                                     </Box>
+                                     <TabPanel value="1">Hola, soy un placeholder</TabPanel>
+                                     <TabPanel value="2">
+                                         <div css={filaClima}>
+                                             <Tarjeta tipo={1} titulo="" descripcion="Hora actual" extra={zonaHoraActual}/>
+                                             <Tarjeta tipo={2} titulo={amanecerActual} descripcion="Amanecer" extra={zonaHoraActual}/>
+                                             <Tarjeta tipo={3} titulo={atardecerActual} descripcion="Anochecer" extra={zonaHoraActual}/>
+                                         </div>
+                                     </TabPanel>
+                                     <TabPanel value="3">
+                                         <div css={filaClima}>
+                                             <Tarjeta tipo={4} titulo={visibilidadActual} descripcion="Visibilidad" extra=""/>
+                                             <Tarjeta tipo={5} titulo={humedadActual + "%"} descripcion="Humedad" extra=""/>
+                                             <Tarjeta tipo={6} titulo={vientoActual} descripcion="Viento" extra=""/>
+                                         </div>
+                                     </TabPanel>
+                                 </TabContext>
+                             </Box>
+                         </div>
+                     ) : (
+                         <div></div>
+                     )}
+                 </>
+             ) : (
+                 <div>No se que paso papu 🤌</div>
+             )}
+         </div>
+     );
+     
 }
 // CSS ---------------------
 // Toda esto podria estar en style.ts y ser reutilizable haciendo un export/import en cualquier otro archivito de mierda

@@ -2,9 +2,14 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  ciudadesFavoritas: []
-};
+interface AppState {
+    ciudadesFavoritas: string[];
+  }
+
+// Define el estado inicial
+const initialState: AppState = {
+    ciudadesFavoritas: [],
+  };
 
 const ciudadesFavoritasSlice = createSlice({
   name: 'ciudadesFavoritas',

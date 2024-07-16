@@ -8,7 +8,9 @@ import { InputBase, List, ListItem, ListItemText, Paper } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search'; 
 import { styled, alpha} from '@mui/material/styles';
 import { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
+import { RootState } from "@/store/store";
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 import {asignarCiudadActual, quitarCiudadActual} from '@/store/slices/ciudadActualSlice';
 import { incrementContadorConsultas, decrementContadorConsultas, resetContadorConsulta} from '@/store/slices/contadorConsultasSlice';
 
@@ -16,7 +18,7 @@ import { incrementContadorConsultas, decrementContadorConsultas, resetContadorCo
 export default function BuscadorCiudades({ pasarCiudadToNavBar }: { pasarCiudadToNavBar: (coordenadas: { lon: number, lat: number }) => void })
 {
      // Para manejarel contador de Redux
-     const count = useSelector(state => state.contadorConsultas.value);
+     const count = useTypedSelector(state => state.contadorConsultas.value);
      const dispatch = useDispatch();
     
      // Utilizado para controlar la ocultación de la lista al hacer clic fuera

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, TypedUseSelectorHook} from 'react-redux';
+import { RootState } from "@/store/store";
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 import IconButton from '@mui/material/IconButton';
 import { Badge } from '@mui/material';
 import Menu from '@mui/material/Menu';
@@ -12,7 +14,7 @@ import { FaStar, FaRegStar } from "react-icons/fa";
 import { agregarCiudadFavorita, quitarCiudadFavorita } from '@/store/slices/ciudadesFavoritasSlice';
 
 const IconoFavoritos = () => {
-  const consultas = useSelector((state) => state.ciudadesFavoritas.ciudadesFavoritas);
+  const consultas = useTypedSelector((state) => state.ciudadesFavoritas.ciudadesFavoritas);
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
@@ -22,7 +24,7 @@ const IconoFavoritos = () => {
     }
   }, [consultas]);
 
-  const handleClick = (event) => {
+  const handleClick = (event:any) => {
     if (consultas.length > 0) {
       setAnchorEl(event.currentTarget);
     }
@@ -32,11 +34,11 @@ const IconoFavoritos = () => {
     setAnchorEl(null);
   };
 
-  const handleDelete = (consulta) => {
+  const handleDelete = (consulta:any) => {
     dispatch(quitarCiudadFavorita(consulta));
   };
 
-  const handleSeleccionCiudad = (consulta) => {
+  const handleSeleccionCiudad = (consulta:any) => {
      console.log("Clic en ciudad");
   };
 

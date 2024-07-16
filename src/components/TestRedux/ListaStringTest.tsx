@@ -1,10 +1,13 @@
 // components/StringList.js
 import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, TypedUseSelectorHook} from 'react-redux';
 import { listaStringTestAdd, listaStringTestRemove} from '@/store/slices/listaStringTestSlice';
+import { RootState } from '@/store/store';
+
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 const ListaStringTest = () => {
-  const items = useSelector(state => state.listaStringTest.items);
+  const items = useTypedSelector(state => state.listaStringTest.items);
   const dispatch = useDispatch();
   const [newItem, setNewItem] = useState('');
 
@@ -23,7 +26,7 @@ const ListaStringTest = () => {
       />
       <button onClick={handleAddItem}>Agregar</button>
       <ul>
-        {items.map((item, index) => (
+        {items.map((item:any, index:any) => (
           <li key={index}>
             {item} <button onClick={() => dispatch(listaStringTestRemove(item))}>Eliminar</button>
           </li>

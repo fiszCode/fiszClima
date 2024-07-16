@@ -1,10 +1,14 @@
 // components/Counter.js
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, TypedUseSelectorHook} from 'react-redux';
 import { incrementContadorTest, decrementContadorTest, resetContadorTest} from '@/store/slices/contadorTestSlice';
+import { RootState } from '@/store/store';
+
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+
 
 const ContadorTest = () => {
-  const count = useSelector(state => state.contadorTest.value);
+  const count = useTypedSelector(state => state.contadorTest.value);
   const dispatch = useDispatch();
 
   return (

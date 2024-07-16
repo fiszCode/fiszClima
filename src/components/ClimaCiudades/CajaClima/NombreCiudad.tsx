@@ -1,9 +1,11 @@
 import { css } from "@emotion/react";
 import { FaStar, FaRegStar } from "react-icons/fa";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch, TypedUseSelectorHook } from 'react-redux';
 import { agregarCiudadFavorita, quitarCiudadFavorita } from '@/store/slices/ciudadesFavoritasSlice';
 
 import React, { useState, useEffect} from 'react';
+import { RootState } from "@/store/store";
+const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 interface CiudadType {
     ciudad: string;
@@ -13,10 +15,12 @@ export default function NombreCiudad({ ciudad }: CiudadType) {
 
     //let ciudadesFavoritas = useSelector((state) => state.ciudadesFavoritas)
 
-    const CityFav = useSelector((state) => state.ciudadesFavoritas)
+    const CityFav = useTypedSelector(state => state.ciudadesFavoritas);
+    //const CityFav = useSelector((state) => state.ciudadesFavoritas)
+    
     const dispatch = useDispatch();
 
-    const ciudadActual = useSelector(state => state.ciudadActual.ciudadActual)
+    const ciudadActual = useTypedSelector(state => state.ciudadActual.ciudadActual)
 
     const esFavorita = CityFav.ciudadesFavoritas.includes(ciudad);
 
